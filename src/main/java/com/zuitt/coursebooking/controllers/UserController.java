@@ -56,6 +56,7 @@ public class UserController extends AppController {
                 response.put("isAdmin", Boolean.toString(matchedUser.getIsAdmin()));
                 response.put("email", matchedUser.getEmail());
                 response.put("token", generateToken(matchedUser.getId(), matchedUser.getEmail()));
+                response.put("id", Integer.toString(matchedUser.getId()));
                 return new ResponseEntity<>(response, HttpStatus.OK);
             } else {
                 response.put("result", "incorrect_credentials");

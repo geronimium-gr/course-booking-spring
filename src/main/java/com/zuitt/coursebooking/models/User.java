@@ -1,6 +1,9 @@
 package com.zuitt.coursebooking.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -8,19 +11,33 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(nullable = false)
     private String firstName;
+
+    @Column(nullable = false)
     private String lastName;
+
+    @Column(nullable = false)
     private String email;
+
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
     private boolean isAdmin;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private Set<Review> reviews;
 
     public User() { }
 
     public User(
-        String firstName,
-        String lastName,
-        String email,
-        String password
+            String firstName,
+            String lastName,
+            String email,
+            String password
     ) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -70,5 +87,13 @@ public class User {
 
     public void setIsAdmin(boolean value) {
         this.isAdmin = value;
+    }
+
+    public Set<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews;
     }
 }
