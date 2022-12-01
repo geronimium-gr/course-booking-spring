@@ -26,6 +26,11 @@ public class UserController extends AppController {
     @Autowired
     private ICourseEnrollmentRepository courseEnrollment;
 
+    @GetMapping("/api/users")
+    public ResponseEntity<Object> getAllUser() {
+        return new ResponseEntity<>(user.findAll(), HttpStatus.OK);
+    }
+
     @PostMapping("/api/users/register")
     public ResponseEntity<Object> register(@RequestBody User newUser) {
         HashMap<String, String> response = new HashMap<>();

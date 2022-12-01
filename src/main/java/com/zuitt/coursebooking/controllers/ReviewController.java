@@ -46,22 +46,41 @@ public class ReviewController{
             @PathVariable int courseId) {
         HashMap<String, String> response = new HashMap<>();
 
+//        For Adding
         Review newReview = new Review();
         newReview.setUser(review.getUser());
+
+//        Is the User or Course Existing?
         User author = userRepository.findById(review.getUser().getId()).get();
         Course course = courseRepository.findById(courseId).get();
 
+//        If User Enrollment or Review exists?
         CourseEnrollment priorEnrollment = courseEnrollmentRepository.findPriorEnrollment(courseId, review.getUser().getId());
+        Review checkExistingReview = reviewRepository.findExistingReview(review.getUser().getId(), courseId);
 
         if (priorEnrollment != null) {
-            newReview.setUser(author);
-            newReview.setCourse(course);
-            newReview.setRating(review.getRating());
-            newReview.setFeedback(review.getFeedback());
-            newReview.setDatetimeCreated(LocalDateTime.now());
+            if (checkExistingReview != null) {
+//                Updates the review
+                int reviewId = reviewRepository.findExistingReview(review.getUser().getId(), courseId).getId();
+                Review updatedReview = reviewRepository.findById(reviewId).get();
+                updatedReview.setUser(author);
+                updatedReview.setCourse(course);
+                updatedReview.setRating(review.getRating());
+                updatedReview.setFeedback(review.getFeedback());
+                updatedReview.setDatetimeCreated(LocalDateTime.now());
 
-            reviewRepository.save(newReview);
-            response.put("result", "added");
+                reviewRepository.save(updatedReview);
+                response.put("result", "updated_review");
+            } else {
+                newReview.setUser(author);
+                newReview.setCourse(course);
+                newReview.setRating(review.getRating());
+                newReview.setFeedback(review.getFeedback());
+                newReview.setDatetimeCreated(LocalDateTime.now());
+
+                reviewRepository.save(newReview);
+                response.put("result", "added");
+            }
         } else {
             response.put("result", "student not enrolled");
         }
