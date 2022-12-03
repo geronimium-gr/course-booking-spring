@@ -17,8 +17,8 @@ public class Review {
     @JoinColumn(name="user_id", nullable = false)
     private User user;
 
-    @ManyToOne
     // Sets the relationship of this property and the user_id column in the database to the primary key in the user model
+    @ManyToOne
     @JoinColumn(name="course_id", nullable = false)
     private Course course;
 

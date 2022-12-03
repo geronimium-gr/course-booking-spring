@@ -13,15 +13,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
 @RestController
-public class ReviewController{
+public class ReviewController extends AppController{
 
     @Autowired
     private IReviewRepository reviewRepository;
@@ -40,6 +36,22 @@ public class ReviewController{
         return new ResponseEntity<>(reviewRepository.findAll(), HttpStatus.OK);
     }
 
+    /*
+    * To view the ratings per course.
+    * */
+    @GetMapping("/api/reviews/ratings")
+    public ResponseEntity<Object> getAllRatings() {
+        return new ResponseEntity<>(reviewRepository.findRatings(), HttpStatus.OK);
+    }
+
+    @GetMapping("/api/reviews/{courseId}")
+    public ResponseEntity<Object> getReviewsOfCourse(@PathVariable int courseId) {
+        return new ResponseEntity<>(reviewRepository.findByCourse(courseId), HttpStatus.OK);
+    }
+
+    /*
+    * To add a review
+    * */
     @PostMapping("/api/{courseId}/reviews")
     public ResponseEntity<Object> add(
             @RequestBody Review review,
