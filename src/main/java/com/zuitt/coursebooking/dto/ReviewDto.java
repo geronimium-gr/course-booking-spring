@@ -8,6 +8,8 @@ public class ReviewDto implements Serializable {
 
     private int id;
 
+    private int courseId;
+
     private String name;
 
     private String description;
@@ -17,8 +19,9 @@ public class ReviewDto implements Serializable {
     public ReviewDto() {
     }
 
-    public ReviewDto(int id, String name, String description, double rating) {
+    public ReviewDto(int id, int courseId, String name, String description, double rating) {
         this.id = id;
+        this.courseId = courseId;
         this.name = name;
         this.description = description;
         this.rating = rating;
@@ -53,5 +56,13 @@ public class ReviewDto implements Serializable {
     }
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
     }
 }
