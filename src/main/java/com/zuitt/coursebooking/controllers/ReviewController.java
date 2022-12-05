@@ -52,7 +52,7 @@ public class ReviewController extends AppController{
     /*
     * To add a review
     * */
-    @PostMapping("/api/{courseId}/reviews")
+    @PostMapping("/api/reviews/{courseId}")
     public ResponseEntity<Object> add(
             @RequestBody Review review,
             @PathVariable int courseId) {

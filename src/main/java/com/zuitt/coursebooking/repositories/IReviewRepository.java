@@ -39,8 +39,11 @@ public interface IReviewRepository extends JpaRepository<Review, Integer> {
     /*
     * Using NEW to create a new Instance of Review DTO
     * */
-    @Query(value = "SELECT NEW com.zuitt.coursebooking.dto.ReviewDto(r.id, c.id AS coursesId, c.name, c.description, AVG(r.rating))" +
+    @Query(value = "SELECT NEW com.zuitt.coursebooking.dto.ReviewDto" +
+            "(r.id, c.id AS courseId, c.name, c.description, c.price, FLOOR(AVG(r.rating)))" +
             "FROM Review r " +
-            "INNER JOIN Course c ON r.course.id = c.id GROUP BY c.name")
+            "RIGHT JOIN Course c ON r.course.id = c.id " +
+            "WHERE c.isActive = 1" +
+            "GROUP BY c.name")
     List<ReviewDto> findRatings();
 }
