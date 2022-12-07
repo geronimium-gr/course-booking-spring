@@ -44,10 +44,14 @@ public class ReviewController extends AppController{
         return new ResponseEntity<>(reviewRepository.findRatings(), HttpStatus.OK);
     }
 
+    /*
+     * To view reviews per course
+     * */
     @GetMapping("/api/reviews/{courseId}")
     public ResponseEntity<Object> getReviewsOfCourse(@PathVariable int courseId) {
         return new ResponseEntity<>(reviewRepository.findByCourse(courseId), HttpStatus.OK);
     }
+
 
     /*
     * To add a review
